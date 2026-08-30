@@ -1,0 +1,7 @@
+projects/retail-repeat-purchase/data/raw/
+projects/retail-repeat-purchase/data/validation/
+projects/retail-repeat-purchase/data/processed/
+projects/retail-repeat-purchase/models/
+*.py[cod]
+__pycache__/
+.venv/
