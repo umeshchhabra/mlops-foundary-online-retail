@@ -40,7 +40,7 @@ class BuildFeaturesTest(unittest.TestCase):
     def test_missing_label_column_fails(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            valid = pd.DataFrame([[1, "100", "2020-01-10", 1, 2.0, "purchase"]], columns=["customer_id", "invoice_id", "invoice_date", "quantity", "line_revenue", "event_type"])
+            valid = pd.DataFrame([[1, "100", "A", "2020-01-10", 1, 2.0, "purchase"]], columns=["customer_id", "invoice_id", "stock_code", "invoice_date", "quantity", "line_revenue", "event_type"])
             valid.to_csv(root / "events.csv", index=False); valid.to_csv(root / "purchases.csv", index=False)
             pd.DataFrame({"customer_id": [1]}).to_csv(root / "labels.csv", index=False)
             with self.assertRaisesRegex(ValueError, "Required label columns"):
