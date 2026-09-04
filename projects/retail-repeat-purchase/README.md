@@ -7,15 +7,17 @@ store, and model training are still separate later steps.
 
 ## Clean transactions
 
-The current policy keeps positive purchase lines for identified customers,
-removes cancellation invoices, returns/adjustments, non-positive prices, and
-exact duplicate rows, and retains missing descriptions. Every removed row is
-counted by reason. The raw file is never modified.
+The script creates two views for identified customers: `events.csv` keeps
+valid purchases, cancellations, returns, and zero-quantity adjustments;
+`purchases.csv` keeps only positive non-cancellation purchase lines. Exact
+duplicates, invalid required fields, and non-positive prices are excluded and
+counted. The raw file is never modified.
 
 ```powershell
 python projects/retail-repeat-purchase/src/clean_transactions.py `
   --input "projects/retail-repeat-purchase/data/raw/Online Retail.xlsx" `
-  --output projects/retail-repeat-purchase/data/processed/transactions.csv `
+  --events-output projects/retail-repeat-purchase/data/processed/events.csv `
+  --purchases-output projects/retail-repeat-purchase/data/processed/purchases.csv `
   --summary projects/retail-repeat-purchase/data/processed/cleaning-summary.json
 ```
 
