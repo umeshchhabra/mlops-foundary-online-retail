@@ -1,9 +1,27 @@
 # Retail repeat-purchase project
 
 This directory contains the customer repeat-purchase project. Dataset
-validation is implemented in `pipelines/shared/`; this branch adds the next
-step, a documented transaction-cleaning script. Label construction, feature
-store, and model training are still separate later steps.
+validation, transaction cleaning, and label construction are implemented in
+the preceding steps. Feature store and model training are still separate later
+steps.
+
+## Build leakage-safe features
+
+Feature construction uses only each label snapshot's observation window. It
+combines completed-purchase aggregates with cancellation and return signals
+from the event view.
+
+```powershell
+python projects/retail-repeat-purchase/src/build_features.py `
+  --events projects/retail-repeat-purchase/data/processed/events.csv `
+  --purchases projects/retail-repeat-purchase/data/processed/purchases.csv `
+  --labels projects/retail-repeat-purchase/data/processed/labels.csv `
+  --output projects/retail-repeat-purchase/data/processed/features.csv `
+  --summary projects/retail-repeat-purchase/data/processed/features-summary.json
+```
+
+The feature definition and leakage boundary are documented in
+`docs/feature-construction.md`.
 
 ## Build repeat-purchase labels
 
