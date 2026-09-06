@@ -135,3 +135,15 @@ python projects/retail-repeat-purchase/src/retrieve_mlflow.py `
 ```
 
 See `docs/mlflow-artifact-retrieval.md` for connection settings and verification details.
+
+## Version the training inputs with DVC
+
+The raw workbook and exact processed feature table are tracked by DVC and stored in the MinIO bucket `retail-repeat-purchase-data`.
+
+```powershell
+python -m pip install -r requirements/dvc.txt
+python -m dvc pull
+python -m dvc status
+```
+
+See `docs/dvc-data-versioning.md` for credentials and restore verification.
