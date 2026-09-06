@@ -27,7 +27,7 @@ For the MinIO-backed artifact store, provide the existing endpoint and
 credentials through environment variables (or the equivalent CLI options):
 
 ```powershell
-$env:MLFLOW_S3_ENDPOINT_URL = "http://localhost:32000"
+$env:MLFLOW_S3_ENDPOINT_URL = "http://localhost:9000"
 $env:AWS_ACCESS_KEY_ID = "<MinIO user>"
 $env:AWS_SECRET_ACCESS_KEY = "<MinIO password>"
 $env:AWS_DEFAULT_REGION = "us-east-1"
