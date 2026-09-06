@@ -90,3 +90,19 @@ python projects/retail-repeat-purchase/src/tune_baselines.py `
 ```
 
 See `docs/model-tuning.md` for the search and evaluation contract.
+
+## Package the tuned model
+
+Validate the tuned report, attach the feature schema and lineage hashes, and run a deterministic local prediction check.
+
+```powershell
+python projects/retail-repeat-purchase/src/package_model.py `
+  --model projects/retail-repeat-purchase/models/tuned/model.joblib `
+  --report projects/retail-repeat-purchase/reports/tuning-report.json `
+  --features projects/retail-repeat-purchase/data/processed/features.csv `
+  --code projects/retail-repeat-purchase/src/tune_baselines.py `
+  --output projects/retail-repeat-purchase/models/tuned/model-package.joblib `
+  --manifest projects/retail-repeat-purchase/reports/model-package.json
+```
+
+See `docs/model-packaging.md` for the package contract.
