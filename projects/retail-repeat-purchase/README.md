@@ -106,3 +106,17 @@ python projects/retail-repeat-purchase/src/package_model.py `
 ```
 
 See `docs/model-packaging.md` for the package contract.
+
+## Track the packaged model in MLflow
+
+Install `requirements/tracking.txt`, then log the package, manifest, tuning report, parameters, metrics, and lineage hashes to the existing MLflow service.
+
+```powershell
+python projects/retail-repeat-purchase/src/track_mlflow.py `
+  --model projects/retail-repeat-purchase/models/tuned/model-package.joblib `
+  --report projects/retail-repeat-purchase/reports/tuning-report.json `
+  --manifest projects/retail-repeat-purchase/reports/model-package.json `
+  --result projects/retail-repeat-purchase/reports/mlflow-run.json
+```
+
+See `docs/mlflow-tracking.md` for the tracking contract.
