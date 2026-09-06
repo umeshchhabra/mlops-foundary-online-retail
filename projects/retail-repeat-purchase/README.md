@@ -120,3 +120,18 @@ python projects/retail-repeat-purchase/src/track_mlflow.py `
 ```
 
 See `docs/mlflow-tracking.md` for the tracking contract.
+
+## Retrieve and verify the MLflow artifact
+
+Download the tracked package and reports, verify their hashes and schema, and confirm prediction parity with the local model package.
+
+```powershell
+python projects/retail-repeat-purchase/src/retrieve_mlflow.py `
+  --run-id <run-id> `
+  --download-dir projects/retail-repeat-purchase/models/downloaded/<run-id> `
+  --local-model projects/retail-repeat-purchase/models/tuned/model-package.joblib `
+  --features projects/retail-repeat-purchase/data/processed/features.csv `
+  --result projects/retail-repeat-purchase/reports/mlflow-retrieval.json
+```
+
+See `docs/mlflow-artifact-retrieval.md` for connection settings and verification details.
