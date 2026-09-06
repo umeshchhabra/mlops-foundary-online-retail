@@ -1,0 +1,185 @@
+{
+  "baseline": {
+    "model": "dummy",
+    "test": {
+      "accuracy": 0.5700389105058365,
+      "confusion_matrix": [
+        [
+          293,
+          0
+        ],
+        [
+          221,
+          0
+        ]
+      ],
+      "macro_f1": 0.3630731102850062,
+      "per_class": {
+        "0": {
+          "f1-score": 0.7261462205700124,
+          "precision": 0.5700389105058365,
+          "recall": 1.0,
+          "support": 293.0
+        },
+        "1": {
+          "f1-score": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 221.0
+        },
+        "macro avg": {
+          "f1-score": 0.3630731102850062,
+          "precision": 0.2850194552529183,
+          "recall": 0.5,
+          "support": 514.0
+        },
+        "weighted avg": {
+          "f1-score": 0.4139316004416608,
+          "precision": 0.3249443594906811,
+          "recall": 0.5700389105058365,
+          "support": 514.0
+        }
+      }
+    }
+  },
+  "cv_folds": 3,
+  "dependencies": {
+    "joblib": "1.5.2",
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2"
+  },
+  "feature_columns": [
+    "purchase_line_count",
+    "distinct_invoice_count",
+    "distinct_stock_code_count",
+    "total_quantity",
+    "total_purchase_revenue",
+    "active_purchase_days",
+    "recency_days",
+    "average_order_value",
+    "average_items_per_invoice",
+    "event_count",
+    "cancellation_count",
+    "return_count",
+    "adjustment_count",
+    "cancellation_rate",
+    "return_rate",
+    "event_net_revenue"
+  ],
+  "input_sha256": "742e55f68f9c9af8047ea4b4ee332b01d4e5e119cc00fcbf111973861e8fe9ee",
+  "model": {
+    "path": "projects\\retail-repeat-purchase\\models\\tuned\\model.joblib",
+    "sha256": "c55ed251cebdfefb0ae94d61a76b5a37de340f2cf9948e3763b03143c9a2e4eb"
+  },
+  "models": {
+    "logistic_regression": {
+      "best_params": {
+        "classifier__C": 0.1,
+        "classifier__class_weight": "balanced"
+      },
+      "configurations": 6,
+      "cv_accuracy": 0.6715399610136452,
+      "cv_macro_f1": 0.6590515889761358,
+      "cv_macro_f1_std": 0.011533158600387965,
+      "test": {
+        "accuracy": 0.6945525291828794,
+        "confusion_matrix": [
+          [
+            224,
+            69
+          ],
+          [
+            88,
+            133
+          ]
+        ],
+        "macro_f1": 0.6846687376668035,
+        "per_class": {
+          "0": {
+            "f1-score": 0.740495867768595,
+            "precision": 0.717948717948718,
+            "recall": 0.764505119453925,
+            "support": 293.0
+          },
+          "1": {
+            "f1-score": 0.6288416075650118,
+            "precision": 0.6584158415841584,
+            "recall": 0.6018099547511312,
+            "support": 221.0
+          },
+          "macro avg": {
+            "f1-score": 0.6846687376668035,
+            "precision": 0.6881822797664382,
+            "recall": 0.683157537102528,
+            "support": 514.0
+          },
+          "weighted avg": {
+            "f1-score": 0.6924888804047976,
+            "precision": 0.6923518975662907,
+            "recall": 0.6945525291828794,
+            "support": 514.0
+          }
+        }
+      }
+    },
+    "random_forest": {
+      "best_params": {
+        "max_depth": 10,
+        "min_samples_leaf": 2,
+        "n_estimators": 100
+      },
+      "configurations": 12,
+      "cv_accuracy": 0.6642300194931773,
+      "cv_macro_f1": 0.6420783168571605,
+      "cv_macro_f1_std": 0.021140987354715802,
+      "test": {
+        "accuracy": 0.7023346303501945,
+        "confusion_matrix": [
+          [
+            242,
+            51
+          ],
+          [
+            102,
+            119
+          ]
+        ],
+        "macro_f1": 0.6842536345641936,
+        "per_class": {
+          "0": {
+            "f1-score": 0.7598116169544741,
+            "precision": 0.7034883720930233,
+            "recall": 0.825938566552901,
+            "support": 293.0
+          },
+          "1": {
+            "f1-score": 0.6086956521739131,
+            "precision": 0.7,
+            "recall": 0.5384615384615384,
+            "support": 221.0
+          },
+          "macro avg": {
+            "f1-score": 0.6842536345641936,
+            "precision": 0.7017441860465117,
+            "recall": 0.6822000525072197,
+            "support": 514.0
+          },
+          "weighted avg": {
+            "f1-score": 0.6948376320974624,
+            "precision": 0.7019885078273459,
+            "recall": 0.7023346303501945,
+            "support": 514.0
+          }
+        }
+      }
+    }
+  },
+  "random_state": 42,
+  "rows": 2566,
+  "scoring": "f1_macro",
+  "selected_model": "logistic_regression",
+  "test_rows": 514,
+  "test_size": 0.2,
+  "train_rows": 2052
+}

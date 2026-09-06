@@ -77,3 +77,16 @@ Run the unit tests with `python -m unittest discover projects/retail-repeat-purc
 
 The label definition and leakage rules are documented in
 `docs/label-construction.md`. Feature construction is the next separate step.
+
+## Tune model parameters
+
+Tune logistic regression and random forest with bounded three-fold cross-validation while keeping the dummy classifier as a held-out test reference.
+
+```powershell
+python projects/retail-repeat-purchase/src/tune_baselines.py `
+  --features projects/retail-repeat-purchase/data/processed/features.csv `
+  --model projects/retail-repeat-purchase/models/tuned/model.joblib `
+  --report projects/retail-repeat-purchase/reports/tuning-report.json
+```
+
+See `docs/model-tuning.md` for the search and evaluation contract.
