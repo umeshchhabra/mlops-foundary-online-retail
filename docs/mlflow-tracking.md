@@ -5,6 +5,9 @@ service. It records tuning parameters, cross-validation and held-out metrics,
 dataset/model/report hashes, and uploads the Joblib package, package manifest,
 and tuning report as artifacts.
 
+The `retail-repeat-purchase` experiment stores artifacts in
+`s3://retail-repeat-purchase-artifacts`.
+
 Install the developer tracking dependency:
 
 ```powershell

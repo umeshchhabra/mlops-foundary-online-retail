@@ -58,6 +58,7 @@ def track_run(
     experiment: str,
     run_name: str,
     payload: dict,
+    artifact_location: str | None = None,
 ) -> str:
     """Create one MLflow run using the installed MLflow SDK."""
     try:
@@ -65,8 +66,14 @@ def track_run(
     except ImportError as exc:
         raise RuntimeError("Install requirements/tracking.txt before tracking a run") from exc
     mlflow.set_tracking_uri(tracking_uri)
-    mlflow.set_experiment(experiment)
-    with mlflow.start_run(run_name=run_name, tags=payload["tags"]) as run:
+    client = mlflow.tracking.MlflowClient()
+    existing = client.get_experiment_by_name(experiment)
+    if existing and artifact_location and existing.artifact_location.rstrip("/") != artifact_location.rstrip("/"):
+        raise ValueError(f"Experiment {experiment} uses {existing.artifact_location}, expected {artifact_location}")
+    experiment_id = existing.experiment_id if existing else client.create_experiment(
+        experiment, artifact_location=artifact_location
+    )
+    with mlflow.start_run(experiment_id=experiment_id, run_name=run_name, tags=payload["tags"]) as run:
         mlflow.log_params(payload["params"])
         mlflow.log_metrics(payload["metrics"])
         for path, artifact_path in payload["artifacts"]:
@@ -78,6 +85,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Log a packaged retail model to MLflow.")
     parser.add_argument("--tracking-uri", default=os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000"))
     parser.add_argument("--experiment", default="retail-repeat-purchase")
+    parser.add_argument("--artifact-location", default="s3://retail-repeat-purchase-artifacts")
     parser.add_argument("--run-name", default="tuned-model-package")
     parser.add_argument("--model", required=True, type=Path, help="Packaged Joblib artifact")
     parser.add_argument("--report", required=True, type=Path, help="Tuning report JSON")
@@ -107,7 +115,7 @@ def main(argv=None) -> int:
     os.environ["AWS_DEFAULT_REGION"] = args.region
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    run_id = track_run(args.tracking_uri, args.experiment, args.run_name, payload)
+    run_id = track_run(args.tracking_uri, args.experiment, args.run_name, payload, args.artifact_location)
     result = {"tracking_uri": args.tracking_uri, "experiment": args.experiment, "run_id": run_id}
     if args.result:
         args.result.parent.mkdir(parents=True, exist_ok=True)
