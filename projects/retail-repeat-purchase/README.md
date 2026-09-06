@@ -2,8 +2,23 @@
 
 This directory contains the customer repeat-purchase project. Dataset
 validation, transaction cleaning, and label construction are implemented in
-the preceding steps. Feature store and model training are still separate later
-steps.
+the preceding steps. Feature store remains a separate later step.
+
+## Train local baselines
+
+The baseline trainer compares a dummy classifier, standardized logistic
+regression, and random forest with a deterministic stratified split. It saves
+the selected estimator and feature order together in a local Joblib artifact.
+
+```powershell
+python -m pip install -r requirements/training.txt
+python projects/retail-repeat-purchase/src/train_baselines.py `
+  --features projects/retail-repeat-purchase/data/processed/features.csv `
+  --model projects/retail-repeat-purchase/models/baseline/model.joblib `
+  --report projects/retail-repeat-purchase/reports/baseline-report.json
+```
+
+See `docs/model-baseline.md` for the evaluation contract and report details.
 
 ## Build leakage-safe features
 
