@@ -1,31 +1,37 @@
-# MLOps Foundry — Online Retail
+# MLOps Foundry — Customer-support RAG
 
-This repository contains the development workflow for the Online Retail
-repeat-purchase project. Infrastructure lives in the separate MLOps Foundry
-repository; this repository contains data and model code, shared pipeline
-helpers, feature definitions, deployment descriptors, and documentation.
+This repository contains the developer-side implementation of a production
+RAG pipeline. Kubernetes, Helm, Argo CD, Airflow, MinIO, MLflow, Redis, KServe,
+and observability services are maintained in the separate infrastructure
+repository.
 
-## First step: validate a dataset
+## Current project
 
-Validation is read-only. It checks that a file can be read, records its SHA-256
-digest, inspects dimensions and schema, reports missing values and duplicates,
-checks numeric values and requested date columns, and emits a JSON report. It
-does not clean or rewrite the input.
+The active developer project is
+`projects/customer-support-rag/`. It starts with the pinned IBM MTRAG
+Government passage corpus and implements validation and deterministic chunking.
 
 ```powershell
-python -m pip install -r requirements/validation.txt
-python pipelines/shared/dataset_validation.py --help
-python pipelines/shared/dataset_validation.py `
-  --input "projects/retail-repeat-purchase/data/raw/Online Retail.xlsx" `
-  --required-column CustomerID `
-  --required-column InvoiceDate `
-  --date-column InvoiceDate `
-  --expected-columns "InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country" `
-  --report projects/retail-repeat-purchase/data/validation/online-retail.json
+python projects/customer-support-rag/src/download_mtrag.py `
+  --output projects/customer-support-rag/data/raw/govt.jsonl.zip `
+  --sha256 09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+
+python projects/customer-support-rag/src/validate_mtrag.py `
+  --input projects/customer-support-rag/data/raw/govt.jsonl.zip `
+  --report projects/customer-support-rag/data/validation/mtrag-government.json `
+  --expected-sha256 09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6 `
+  --expected-rows 49607
+
+python projects/customer-support-rag/src/chunk_mtrag.py `
+  --input projects/customer-support-rag/data/raw/govt.jsonl.zip `
+  --output projects/customer-support-rag/data/processed/mtrag-government-chunks.jsonl
 ```
 
-The raw dataset and generated reports are ignored by Git. Commit the expected
-digest and validation metadata only after reviewing them.
+Run the RAG tests with:
 
-See [the validation guide](docs/data-validation.md) for the checks, exit codes,
-and the interpretation of the current Online Retail source.
+```powershell
+python -m unittest discover projects/customer-support-rag/tests -p 'test_*.py'
+```
+
+See [the dataset foundation guide](docs/rag-dataset-foundation.md) for the
+immutable source manifest and the required dedicated MinIO bucket.

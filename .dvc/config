@@ -1,5 +1,5 @@
 [core]
     remote = minio
 ['remote "minio"']
-    url = s3://retail-repeat-purchase-data
+    url = s3://customer-support-rag-data
     endpointurl = http://localhost:9000
