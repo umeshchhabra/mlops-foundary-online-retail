@@ -13,3 +13,8 @@ projects/retail-repeat-purchase/reports/mlflow-retrieval.json
 *.py[cod]
 __pycache__/
 .venv/
+projects/customer-support-rag/data/raw/*
+!projects/customer-support-rag/data/raw/*.dvc
+!projects/customer-support-rag/data/raw/*manifest.json
+projects/customer-support-rag/data/validation/
+projects/customer-support-rag/data/processed/

@@ -1,0 +1,41 @@
+# Customer-support RAG
+
+This project is the developer-side implementation of a production-oriented
+retrieval-augmented generation pipeline. Infrastructure remains in the
+separate platform repository.
+
+## First dataset: MTRAG Government corpus
+
+The first step uses the passage-level Government corpus from IBM's MTRAG
+benchmark. The exact archive is recorded in
+`data/raw/mtrag-government-manifest.json`. The archive is intentionally not
+committed to Git; it will be versioned through DVC after the RAG MinIO remote is
+provisioned.
+
+Download and validate it locally:
+
+```powershell
+python projects/customer-support-rag/src/download_mtrag.py `
+  --output projects/customer-support-rag/data/raw/govt.jsonl.zip `
+  --sha256 09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+
+python projects/customer-support-rag/src/validate_mtrag.py `
+  --input projects/customer-support-rag/data/raw/govt.jsonl.zip `
+  --report projects/customer-support-rag/data/validation/mtrag-government.json `
+  --expected-sha256 09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6 `
+  --expected-rows 49607
+```
+
+The validator checks the ZIP integrity, JSONL structure, required fields,
+identifier uniqueness, URL shape, non-empty passage text, row count, and
+content hashes. It does not embed or index data yet.
+
+Run the focused test with:
+
+```powershell
+python -m unittest discover projects/customer-support-rag/tests -p 'test_*.py'
+```
+
+Customer records will be synthetic during development. Approved private data
+will later be accessed through an authorization-aware service rather than
+placed in the public document index.

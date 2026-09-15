@@ -1,0 +1,13 @@
+{
+  "dataset": "IBM MTRAG Government passage corpus",
+  "source_url": "https://github.com/IBM/mt-rag-benchmark/raw/2c618bb98db3c8526433e22d8a2f7320f10a7470/corpora/passage_level/govt.jsonl.zip",
+  "archive_name": "govt.jsonl.zip",
+  "member": "govt.jsonl",
+  "archive_bytes": 21876990,
+  "archive_sha256": "09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6",
+  "rows": 49607,
+  "unique_ids": 49607,
+  "unique_urls": 7661,
+  "required_fields": ["_id", "id", "url", "text", "title"],
+  "license": "See the IBM MTRAG repository license and the individual source corpus terms before redistribution"
+}

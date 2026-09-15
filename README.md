@@ -29,3 +29,7 @@ digest and validation metadata only after reviewing them.
 
 See [the validation guide](docs/data-validation.md) for the checks, exit codes,
 and the interpretation of the current Online Retail source.
+
+## Customer-support RAG project
+
+The developer-side RAG work lives in `projects/customer-support-rag/`. The first step pins and validates IBM's MTRAG Government passage corpus. Follow `docs/rag-dataset-foundation.md` for the dataset manifest, validation commands, and the separate MinIO bucket prerequisite.
