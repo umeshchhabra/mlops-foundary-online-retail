@@ -5,3 +5,6 @@ dataset:
   source_commit: 2c618bb98db3c8526433e22d8a2f7320f10a7470
   expected_sha256: 09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
   expected_rows: 49607
+chunking:
+  max_chars: 1200
+  overlap_chars: 200
