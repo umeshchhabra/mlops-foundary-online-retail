@@ -38,10 +38,37 @@ python projects/customer-support-rag/src/chunk_mtrag.py `
 
 Each chunk keeps its document ID, source URL, title, chunk position, and a
 stable chunk ID. The default 1,200-character window and 200-character overlap
-are recorded in `params.yaml`; the output is a local build artifact and is not
-committed to Git.
+are recorded in `params.yaml`.
 
-Run the focused test with:
+## Reproduce with DVC
+
+`dvc.yaml` defines three reproducible stages: download the pinned archive,
+validate it, and create deterministic chunks. Run the full pipeline from the
+repository root:
+
+```powershell
+.\.venv\Scripts\dvc.exe repro projects/customer-support-rag/dvc.yaml
+```
+
+The run creates `dvc.lock` with the source, parameter, dependency, and output
+hashes. Commit that lock file, but keep the data and generated reports ignored
+by Git. After the dedicated MinIO bucket is provisioned and DVC credentials are
+configured, upload the cached outputs:
+
+```powershell
+.\.venv\Scripts\dvc.exe push projects/customer-support-rag/dvc.yaml
+```
+
+A fresh checkout can restore the exact locked outputs with:
+
+```powershell
+.\.venv\Scripts\dvc.exe pull projects/customer-support-rag/dvc.yaml
+```
+
+The configured remote is the project bucket `customer-support-rag-data`; no
+bucket or infrastructure resources are created by this repository.
+
+Run the focused tests with:
 
 ```powershell
 python -m unittest discover projects/customer-support-rag/tests -p 'test_*.py'

@@ -1,0 +1,53 @@
+stages:
+  download:
+    cmd: >-
+      python src/download_mtrag.py
+      --output data/raw/govt.jsonl.zip
+      --sha256 ${dataset.expected_sha256}
+    deps:
+      - src/download_mtrag.py
+    params:
+      - params.yaml:
+          - dataset.source_commit
+          - dataset.expected_sha256
+    outs:
+      - data/raw/govt.jsonl.zip
+
+  validate:
+    cmd: >-
+      python src/validate_mtrag.py
+      --input data/raw/govt.jsonl.zip
+      --member ${dataset.member}
+      --report data/validation/mtrag-government.json
+      --expected-sha256 ${dataset.expected_sha256}
+      --expected-rows ${dataset.expected_rows}
+    deps:
+      - src/validate_mtrag.py
+      - data/raw/govt.jsonl.zip
+    params:
+      - params.yaml:
+          - dataset.member
+          - dataset.expected_sha256
+          - dataset.expected_rows
+    outs:
+      - data/validation/mtrag-government.json
+
+  chunk:
+    cmd: >-
+      python src/chunk_mtrag.py
+      --input data/raw/govt.jsonl.zip
+      --member ${dataset.member}
+      --output data/processed/mtrag-government-chunks.jsonl
+      --max-chars ${chunking.max_chars}
+      --overlap-chars ${chunking.overlap_chars}
+    deps:
+      - src/chunk_mtrag.py
+      - src/validate_mtrag.py
+      - data/raw/govt.jsonl.zip
+    params:
+      - params.yaml:
+          - dataset.member
+          - chunking.max_chars
+          - chunking.overlap_chars
+    outs:
+      - data/processed/mtrag-government-chunks.jsonl
