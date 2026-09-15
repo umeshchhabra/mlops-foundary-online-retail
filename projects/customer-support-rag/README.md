@@ -7,10 +7,8 @@ separate platform repository.
 ## First dataset: MTRAG Government corpus
 
 The first step uses the passage-level Government corpus from IBM's MTRAG
-benchmark. The exact archive is recorded in
-`data/raw/mtrag-government-manifest.json`. The archive is intentionally not
-committed to Git; it will be versioned through DVC after the RAG MinIO remote is
-provisioned.
+benchmark. The archive URL and expected SHA-256 are pinned in the download command below.
+The archive and generated reports are local build artifacts and are intentionally not committed to Git.
 
 Download and validate it locally:
 
