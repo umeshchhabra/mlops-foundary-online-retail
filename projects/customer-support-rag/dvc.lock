@@ -1,0 +1,73 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python src/download_mtrag.py --output data/raw/govt.jsonl.zip --sha256
+      09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+    deps:
+    - path: src/download_mtrag.py
+      hash: md5
+      md5: ab468a39982a5a7eb24b71493953f8d5
+      size: 1771
+    params:
+      params.yaml:
+        dataset.expected_sha256:
+          09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+        dataset.source_commit: 2c618bb98db3c8526433e22d8a2f7320f10a7470
+    outs:
+    - path: data/raw/govt.jsonl.zip
+      hash: md5
+      md5: da64c24f242d8d0b4cf332997ad4a827
+      size: 21876990
+  validate:
+    cmd: python src/validate_mtrag.py --input data/raw/govt.jsonl.zip --member
+      govt.jsonl --report data/validation/mtrag-government.json
+      --expected-sha256
+      09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+      --expected-rows 49607
+    deps:
+    - path: data/raw/govt.jsonl.zip
+      hash: md5
+      md5: da64c24f242d8d0b4cf332997ad4a827
+      size: 21876990
+    - path: src/validate_mtrag.py
+      hash: md5
+      md5: b1fc5bc05dd4f4c35af5d1803ca04fb8
+      size: 4252
+    params:
+      params.yaml:
+        dataset.expected_rows: 49607
+        dataset.expected_sha256:
+          09adcc5a1a8d11e362c66d7dbf0ef2ea338df4327d655102bf91ea8e258399f6
+        dataset.member: govt.jsonl
+    outs:
+    - path: data/validation/mtrag-government.json
+      hash: md5
+      md5: 81efcfa4f3d33f3896cd9a4b004ce3d9
+      size: 484
+  chunk:
+    cmd: python src/chunk_mtrag.py --input data/raw/govt.jsonl.zip --member
+      govt.jsonl --output data/processed/mtrag-government-chunks.jsonl
+      --max-chars 1200 --overlap-chars 200
+    deps:
+    - path: data/raw/govt.jsonl.zip
+      hash: md5
+      md5: da64c24f242d8d0b4cf332997ad4a827
+      size: 21876990
+    - path: src/chunk_mtrag.py
+      hash: md5
+      md5: 9457a194099938c4a221eb866de3a12d
+      size: 4114
+    - path: src/validate_mtrag.py
+      hash: md5
+      md5: b1fc5bc05dd4f4c35af5d1803ca04fb8
+      size: 4252
+    params:
+      params.yaml:
+        chunking.max_chars: 1200
+        chunking.overlap_chars: 200
+        dataset.member: govt.jsonl
+    outs:
+    - path: data/processed/mtrag-government-chunks.jsonl
+      hash: md5
+      md5: 9b36c3cc97d2f3482e887d07ca8b724c
+      size: 121839767
